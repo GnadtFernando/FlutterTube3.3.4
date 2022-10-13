@@ -22,7 +22,6 @@ class Favorites extends StatelessWidget {
       ),
       backgroundColor: Colors.black,
       body: StreamBuilder<Map<String, Video>>(
-        initialData: const {},
         stream: BlocProvider.getBloc<FavoriteBloc>().outFav,
         builder: (context, snapshot) {
           if (snapshot.hasData) {

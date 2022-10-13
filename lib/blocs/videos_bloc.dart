@@ -35,9 +35,7 @@ class VideosBloc implements BlocBase {
   }
 
   @override
-  void addListener(VoidCallback listener) {
-    // TODO: implement addListener
-  }
+  void addListener(VoidCallback listener) {}
 
   @override
   void dispose() {
@@ -46,16 +44,11 @@ class VideosBloc implements BlocBase {
   }
 
   @override
-  // TODO: implement hasListeners
   bool get hasListeners => throw UnimplementedError();
 
   @override
-  void notifyListeners() {
-    // TODO: implement notifyListeners
-  }
+  void notifyListeners() {}
 
   @override
-  void removeListener(VoidCallback listener) {
-    // TODO: implement removeListener
-  }
+  void removeListener(VoidCallback listener) {}
 }

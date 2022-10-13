@@ -1,3 +1,5 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:favorite_youtube_bloc/blocs/favorite_bloc.dart';
 import 'package:favorite_youtube_bloc/models/video.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +40,6 @@ class VideoTile extends StatelessWidget {
                       ),
                     ),
                     Padding(
-
                       padding: const EdgeInsets.all(8),
                       child: Text(
                         video.channel,
@@ -51,13 +52,28 @@ class VideoTile extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.star_border,
-                  color: Colors.white,
-                  size: 30,
-                ),
+              StreamBuilder<Map<String, Video>>(
+                initialData: const {},
+                stream: BlocProvider.getBloc<FavoriteBloc>().outFav,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return IconButton(
+                      onPressed: () {
+                        BlocProvider.getBloc<FavoriteBloc>()
+                            .toggleFavorite(video);
+                      },
+                      icon: Icon(
+                        snapshot.data!.containsKey(video.id)
+                            ? Icons.star
+                            : Icons.star_border,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
               ),
             ],
           )

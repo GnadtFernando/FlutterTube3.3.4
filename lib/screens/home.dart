@@ -1,4 +1,7 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:favorite_youtube_bloc/blocs/videos_bloc.dart';
 import 'package:favorite_youtube_bloc/delegates/data_search.dart';
+import 'package:favorite_youtube_bloc/widgets/video_tile.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -33,7 +36,9 @@ class Home extends StatelessWidget {
             onPressed: () async {
               String? result =
                   await showSearch(context: context, delegate: DataSearch());
-              print(result);
+              if (result != null) {
+                BlocProvider.getBloc<VideosBloc>().inSearch.add(result);
+              }
             },
             icon: const Icon(
               Icons.search,
@@ -42,7 +47,23 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(),
+      backgroundColor: Colors.black,
+      body: StreamBuilder(
+        stream: BlocProvider.getBloc<VideosBloc>().outVideos,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return VideoTile(
+                    video: snapshot.data[index],
+                  );
+                });
+          } else {
+            return Container();
+          }
+        },
+      ),
     );
   }
 }

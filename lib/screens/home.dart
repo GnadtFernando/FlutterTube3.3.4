@@ -49,15 +49,30 @@ class Home extends StatelessWidget {
       ),
       backgroundColor: Colors.black,
       body: StreamBuilder(
+        initialData: const [],
         stream: BlocProvider.getBloc<VideosBloc>().outVideos,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data.length + 1,
                 itemBuilder: (context, index) {
-                  return VideoTile(
-                    video: snapshot.data[index],
-                  );
+                  if (index < snapshot.data.length) {
+                    return VideoTile(
+                      video: snapshot.data[index],
+                    );
+                  } else if (index > 1) {
+                    BlocProvider.getBloc<VideosBloc>().inSearch.add(null);
+                    return Container(
+                      height: 40,
+                      width: 40,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
                 });
           } else {
             return Container();

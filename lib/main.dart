@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           (i) => VideosBloc(),
         ),
       ],
-      dependencies: [],
+      dependencies: const [],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

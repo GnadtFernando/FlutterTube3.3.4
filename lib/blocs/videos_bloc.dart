@@ -6,7 +6,7 @@ import 'package:favorite_youtube_bloc/models/video.dart';
 
 class VideosBloc implements BlocBase {
   Api? api;
-  List<Video>? videos;
+  late List<Video> videos;
 
   final StreamController<List<Video>> _videosController =
       StreamController<List<Video>>();
@@ -24,8 +24,14 @@ class VideosBloc implements BlocBase {
   }
 
   void _search(String search) async {
-    videos = await api!.search(search);
-    _videosController.sink.add(videos!);
+    if (search.isNotEmpty) {
+      _videosController.sink.add([]);
+      videos = await api!.search(search);
+    } else {
+      videos += await api!.nextPage();
+    }
+
+    _videosController.sink.add(videos);
   }
 
   @override

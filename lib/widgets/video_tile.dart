@@ -38,6 +38,7 @@ class VideoTile extends StatelessWidget {
                       ),
                     ),
                     Padding(
+
                       padding: const EdgeInsets.all(8),
                       child: Text(
                         video.channel,
